@@ -150,22 +150,25 @@ public class BspWindow : EditorWindow
 					}
 					EditorGUILayout.EndHorizontal();
 
-					var missing = RequiredTextures.Where((t) => t != null && (PackedTextures == null || !PackedTextures.Any((texture) => texture != t)) && !File.Exists(Path.Combine(ImportSettings.TextureLookupDirectory, t+".png"))).ToArray();
-					if(missing.Any())
-					{
-						EditorGUILayout.BeginVertical("Box");
-						{
-							_foldout_textures_missing = EditorGUILayout.Foldout(_foldout_textures_missing, "Missing");
-							if(_foldout_textures_missing)
-							{
-								foreach(var m in missing)
-									GUILayout.Label(m);
-							}
-						}
-						EditorGUILayout.EndVertical();
-					}
+                    if(RequiredTextures != null)
+                    {
+					    var missing = RequiredTextures.Where((t) => t != null && (PackedTextures == null || !PackedTextures.Any((texture) => texture != t)) && !File.Exists(Path.Combine(ImportSettings.TextureLookupDirectory, t+".png"))).ToArray();
+					    if(missing.Any())
+					    {
+						    EditorGUILayout.BeginVertical("Box");
+						    {
+							    _foldout_textures_missing = EditorGUILayout.Foldout(_foldout_textures_missing, "Missing");
+							    if(_foldout_textures_missing)
+							    {
+								    foreach(var m in missing)
+									    GUILayout.Label(m);
+							    }
+						    }
+						    EditorGUILayout.EndVertical();
+					    }
+                    }
 
-					if(PackedTextures.Length > 0)
+					if(PackedTextures != null && PackedTextures.Length > 0)
 					{
 						EditorGUILayout.BeginVertical("Box");
 						{
@@ -718,7 +721,13 @@ public class BspWindow : EditorWindow
 									mc.isTrigger = true;
 						}
 						break;
-				}
+                    case "func_tracktrain":
+                        {
+                            Debug.Log("Found train");
+                        }
+                        break;
+
+                }
 
 			}
 		}
